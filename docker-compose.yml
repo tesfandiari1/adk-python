@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  adk:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount the source code for development
+      - ./src:/app/src
+      # Mount sample agents
+      - ./contributing/samples:/app/contributing/samples
+      # Mount .env file for authentication
+      - ./.env:/app/.env
+    environment:
+      - PYTHONPATH=/app
+    # Use env_file to load all variables from .env
+    env_file:
+      - .env
+    # Specify host=0.0.0.0 to bind to all interfaces
+    command: adk web --host 0.0.0.0 
